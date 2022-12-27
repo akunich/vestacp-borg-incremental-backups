@@ -13,7 +13,7 @@ EXCLUDE=$CURRENT_DIR/exclude
 # Set backup archive name to current day
 ARCHIVE=$(date +'%F--%H-%M')
 
-if [ "${PATH#*/usr/local/hestia/bin*}" = "$PATH" ]; then
+if [ -f /etc/profile.d/hestia.sh ]; then
 . /etc/profile.d/hestia.sh
 fi
 ### Start processing ###
