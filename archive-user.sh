@@ -15,7 +15,7 @@ START_TIME=`date +%s`
 USER_DIR=$HOME_DIR/$USER
 VESTA_USER_DIR=$VESTA_DIR/data/users/$USER
 ARCHIVE_USER_DIR=$ARCHIVE_DIR/$USER
-ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/vesta/$USER
+ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/$PANELNAME/$USER
 
 ##### Validations #####
 
@@ -35,7 +35,7 @@ fi
 
 # Check if user exist in vesta dir
 if [ ! -d "$VESTA_USER_DIR" ]; then
-  echo "!!!!! User $USER doest not exist in vesta directory."
+  echo "!!!!! User $USER doest not exist in $PANELNAME directory."
   exit 1
 fi
 
@@ -94,7 +94,7 @@ fi
 mkdir -p $ARCHIVE_USER_DIR
 mkdir -p $ARCHIVE_VESTA_USER_DIR
 
-echo "-- Saving vesta config files for user $USER from $VESTA_USER_DIR to $ARCHIVE_VESTA_USER_DIR"
+echo "-- Saving $PANELNAME config files for user $USER from $VESTA_USER_DIR to $ARCHIVE_VESTA_USER_DIR"
 rsync -za $VESTA_USER_DIR/ $ARCHIVE_VESTA_USER_DIR/
 
 echo "-- Saving user files from $USER_DIR to $ARCHIVE_USER_DIR"

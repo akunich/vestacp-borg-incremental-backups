@@ -42,13 +42,13 @@ fi
 
 # Check if vesta repo exist
 if [ ! -d "$REPO_VESTA/data" ]; then
-  echo "!!!!! Vesta has no backup repository or no backup has been executed yet. Aborting..."
+  echo "!!!!! $PANELNAME has no backup repository or no backup has been executed yet. Aborting..."
   exit 1
 fi
 
 # Check if backup archive date exist in vesta repo
 if ! borg list $REPO_VESTA | grep -q $TIME; then
-  echo "!!!!! Backup archive $TIME not found in Vesta repo, the following are available:"
+  echo "!!!!! Backup archive $TIME not found in $PANELNAME repo, the following are available:"
   borg list $REPO_VESTA
   echo "Usage example:"
   echo $USAGE
@@ -75,24 +75,24 @@ BACKUP_VESTA_USER_DIR="${VESTA_USER_DIR:1}"
 
 cd $TEMP_DIR
 
-echo "----- Restoring Vesta user files from backup $REPO_VESTA::$TIME to temp dir"
+echo "----- Restoring $PANELNAME user files from backup $REPO_VESTA::$TIME to temp dir"
 borg extract --list $REPO_VESTA::$TIME $BACKUP_VESTA_USER_DIR
 
 # Check that the files have been restored correctly
 if [ ! -d "$BACKUP_VESTA_USER_DIR" ]; then
-  echo "!!!!! Vesta user config files for $USER are not present in backup archive $TIME. Aborting..."
+  echo "!!!!! $PANELNAME user config files for $USER are not present in backup archive $TIME. Aborting..."
   exit 1
 fi
 if [ -z "$(ls -A $BACKUP_VESTA_USER_DIR)" ]; then
-  echo "!!!!! Vesta user config files restored directory for $USER is empty, Aborting..."
+  echo "!!!!! $PANELNAME user config files restored directory for $USER is empty, Aborting..."
   exit 1
 fi
 
-echo "-- Restoring vesta config files for user $USER from temp dir to $VESTA_USER_DIR"
+echo "-- Restoring $PANELNAME config files for user $USER from temp dir to $VESTA_USER_DIR"
 mkdir -p $VESTA_USER_DIR
 rsync -za --delete $BACKUP_VESTA_USER_DIR/ $VESTA_USER_DIR/
 
-echo "-- Vesta rebuild user"
+echo "-- $PANELNAME rebuild user"
 v-rebuild-user $USER
 
 echo "----- Restoring user files from backup $USER_REPO::$TIME to temp dir"
@@ -131,7 +131,7 @@ v-list-databases $USER | cut -d " " -f1 | awk '{if(NR>2)print}' | while read DB 
   fi
 done
 
-echo "-- Vesta rebuild user"
+echo "-- $PANELNAME rebuild user"
 v-rebuild-user $USER
 
 echo "----- Cleaning temp dir"

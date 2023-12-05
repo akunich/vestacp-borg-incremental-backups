@@ -64,7 +64,7 @@ do
   BACKUP_USER_DIR="${USER_DIR:1}"
   VESTA_USER_DIR=$VESTA_DIR/data/users/$USER
   BACKUP_VESTA_USER_DIR="${VESTA_USER_DIR:1}"
-  ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/vesta
+  ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/$PANELNAME
 
   if [ -f "$ARCHIVE_USER_DIR.tar.gz" ]; then
     echo "!!!!! User archive file $ARCHIVE_USER_DIR.tar.gz already exist."
@@ -103,14 +103,14 @@ do
   mkdir -p $ARCHIVE_VESTA_USER_DIR
   cd $TEMP_DIR
 
-  echo "-- Extracting Vesta user $USER files from backup $REPO_VESTA::$LAST_BACKUP_ARCHIVE to temp dir"
+  echo "-- Extracting $PANELNAME user $USER files from backup $REPO_VESTA::$LAST_BACKUP_ARCHIVE to temp dir"
   borg extract --list $REPO_VESTA::$LAST_BACKUP_ARCHIVE $BACKUP_VESTA_USER_DIR
   # Check that the files have been restored correctly
   if [ ! -d "$BACKUP_VESTA_USER_DIR" ]; then
-    echo "!!!!! Vesta user config files for $USER are not present in backup archive $LAST_BACKUP_ARCHIVE."
+    echo "!!!!! $PANELNAME user config files for $USER are not present in backup archive $LAST_BACKUP_ARCHIVE."
   fi
   if [ -z "$(ls -A $BACKUP_VESTA_USER_DIR)" ]; then
-    echo "!!!!! Vesta user config files restored directory for $USER is empty."
+    echo "!!!!! $PANELNAME user config files restored directory for $USER is empty."
   fi
 
   echo "-- Extracting last backup $USER_REPO::$LAST_BACKUP_ARCHIVE to temp dir"

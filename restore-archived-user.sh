@@ -21,7 +21,7 @@ mkdir -p $TEMP_DIR
 USER_DIR=$HOME_DIR/$USER
 VESTA_USER_DIR=$VESTA_DIR/data/users/$USER
 ARCHIVE_USER_DIR=$ARCHIVE_DIR/$USER
-ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/vesta/$USER
+ARCHIVE_VESTA_USER_DIR=$ARCHIVE_USER_DIR/$PANELNAME/$USER
 
 ##### Validations #####
 
@@ -73,26 +73,26 @@ tar -pxzf $USER.tar.gz
 
 # Archive content validation
 if [ ! -d "$ARCHIVE_VESTA_USER_DIR" ]; then
-  echo "!!!!! User $USER vesta config files are not present in the offline archive. Aborting..."
+  echo "!!!!! User $USER $PANELNAME config files are not present in the offline archive. Aborting..."
   exit 1
 fi
 if [ -z "$(ls -A $ARCHIVE_VESTA_USER_DIR)" ]; then
-  echo "!!!!! Restored Vesta user config dir from offline archive is empty, Aborting..."
+  echo "!!!!! Restored $PANELNAME user config dir from offline archive is empty, Aborting..."
   exit 1
 fi
 
 echo "########## BACKUP OFFLINE ARCHIVE FOR USER $USER FOUND, PROCEEDING WITH RESTORE ##########"
 
-echo "-- Restoring vesta config files for user $USER from $ARCHIVE_VESTA_USER_DIR to $VESTA_USER_DIR"
+echo "-- Restoring $PANELNAME config files for user $USER from $ARCHIVE_VESTA_USER_DIR to $VESTA_USER_DIR"
 mkdir -p $VESTA_USER_DIR
 rsync -za --delete $ARCHIVE_VESTA_USER_DIR/ $VESTA_USER_DIR/
 
-echo "-- Vesta rebuild user"
+echo "-- $PANELNAME rebuild user"
 v-rebuild-user $USER
 
 # First we remove vesta folder from archive
-if [ -d "$ARCHIVE_USER_DIR/vesta" ]; then
-  rm -rf $ARCHIVE_USER_DIR/vesta
+if [ -d "$ARCHIVE_USER_DIR/$PANELNAME" ]; then
+  rm -rf $ARCHIVE_USER_DIR/$PANELNAME
 fi
 
 echo "-- Restoring user files from $ARCHIVE_USER_DIR to $USER_DIR"
@@ -115,7 +115,7 @@ v-list-databases $USER | cut -d " " -f1 | awk '{if(NR>2)print}' | while read DB 
   fi
 done
 
-echo "-- Vesta rebuild user"
+echo "-- $PANELNAME rebuild user"
 v-rebuild-user $USER
 
 echo "----- Cleaning extracted offline archive dir"
