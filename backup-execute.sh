@@ -103,6 +103,7 @@ for USER_DIR in $HOME_DIR/* ; do
     borg create $OPTIONS_CREATE $USER_REPO::$ARCHIVE $USER_DIR --exclude-from=$EXCLUDE
     echo "-- Cleaning old backup archives"
     borg prune $OPTIONS_PRUNE $USER_REPO
+    borg compact $USER_REPO
 
     let COUNT++
     echo
@@ -130,6 +131,7 @@ echo "-- Creating new backup archive $REPO_SCRIPTS::$ARCHIVE"
 borg create $OPTIONS_CREATE $REPO_SCRIPTS::$ARCHIVE $SCRIPTS_DIR
 echo "-- Cleaning old backup archives"
 borg prune $OPTIONS_PRUNE $REPO_SCRIPTS
+borg compact $REPO_SCRIPTS
 echo
 
 echo "$(date +'%F %T') ########## Executing server config backup: $ETC_DIR ##########"
@@ -142,6 +144,7 @@ echo "-- Creating new backup archive $REPO_ETC::$ARCHIVE"
 borg create $OPTIONS_CREATE $REPO_ETC::$ARCHIVE $ETC_DIR
 echo "-- Cleaning old backup archives"
 borg prune $OPTIONS_PRUNE $REPO_ETC
+borg compact $REPO_ETC
 echo
 
 echo "$(date +'%F %T') ########## Executing Vesta dir backup: $VESTA_DIR ##########"
@@ -154,6 +157,7 @@ echo "-- Creating new backup archive $REPO_VESTA::$ARCHIVE"
 borg create $OPTIONS_CREATE $REPO_VESTA::$ARCHIVE $VESTA_DIR
 echo "-- Cleaning old backup archives"
 borg prune $OPTIONS_PRUNE $REPO_VESTA
+borg compact $REPO_VESTA
 echo
 
 # if [[ ! -z "$REMOTE_BACKUP_SERVER" && ! -z "$REMOTE_BACKUP_SERVER_DIR" ]]; then

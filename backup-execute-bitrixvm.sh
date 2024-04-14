@@ -80,6 +80,7 @@ USER_DIR="/home/$USER"
     borg create $OPTIONS_CREATE $USER_REPO::$ARCHIVE $USER_DIR --exclude-from=$EXCLUDE
     echo "-- Cleaning old backup archives"
     borg prune $OPTIONS_PRUNE $USER_REPO
+    borg compact $USER_REPO
 
     let COUNT++
     echo
@@ -107,6 +108,7 @@ echo "-- Creating new backup archive $REPO_ETC::$ARCHIVE"
 borg create $OPTIONS_CREATE $REPO_ETC::$ARCHIVE $ETC_DIR
 echo "-- Cleaning old backup archives"
 borg prune $OPTIONS_PRUNE $REPO_ETC
+borg compact $REPO_ETC
 echo
 
 # if [[ ! -z "$REMOTE_BACKUP_SERVER" && ! -z "$REMOTE_BACKUP_SERVER_DIR" ]]; then
